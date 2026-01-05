@@ -22,6 +22,7 @@ An AI-powered trading analysis application with support for Forex, Metals, Crypt
 - **Vector DB**: Pinecone for embeddings and semantic search
 - **Embeddings**: OpenAI text-embedding-3-small
 - **Market Data**: Polygon API
+- **Charts**: TradingView Lightweight Charts
 
 ## Getting Started
 
@@ -40,6 +41,26 @@ Visit http://localhost:3000
 ✅ Phase 2: Layout & Navigation
 ✅ Phase 3: AI Integration
 ✅ Phase 4: Vector Memory System
+✅ Phase 5: Market Data & Charts
+
+## Environment Variables
+
+```env
+# Authentication
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-key
+
+# AI Providers
+ANTHROPIC_API_KEY=your-anthropic-key
+OPENAI_API_KEY=your-openai-key
+
+# Vector Memory (Optional)
+PINECONE_API_KEY=your-pinecone-key
+PINECONE_INDEX_NAME=your-index-name
+
+# Market Data (Optional)
+POLYGON_API_KEY=your-polygon-key
+```
 
 ## License
 
