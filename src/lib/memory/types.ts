@@ -33,6 +33,6 @@ export interface MemorySearchResult {
 export interface MemorySearchOptions {
   namespace: MemoryNamespace;
   topK?: number;
-  filter?: Record<string, any>;
+  filter?: Record<string, string | number | boolean>;
   userId: string;
 }

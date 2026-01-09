@@ -21,6 +21,33 @@ model User {
   strategies    Strategy[]
   tools         Tool[]
   playbooks     Playbook[]
+  settings      UserSettings?
+}
+
+model UserSettings {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // AI Provider Settings
+  preferredProvider String   @default("anthropic")
+  anthropicModel    String   @default("claude-3-sonnet-20240229")
+  openaiModel       String   @default("gpt-4-turbo-preview")
+
+  // Display Settings
+  theme             String   @default("system")
+  timezone          String   @default("UTC")
+
+  // Trading Preferences
+  defaultMarket     String   @default("forex")
+  defaultTimeframe  String   @default("1h")
+  riskPerTrade      Float    @default(1.0)
+
+  // Notification Settings
+  emailNotifications Boolean @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Conversation {
@@ -67,8 +94,14 @@ model Strategy {
   description String?
   content     String
   category    String   @default("General")
+  tags        String   @default("[]")
+  timeframes  String   @default("[]")
+  markets     String   @default("[]")
+  riskLevel   String   @default("medium")
+  isPublic    Boolean  @default(false)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playbooks   Playbook[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -79,6 +112,9 @@ model Tool {
   description String?
   content     String
   category    String   @default("General")
+  tags        String   @default("[]")
+  url         String?
+  toolType    String   @default("indicator")
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
@@ -91,6 +127,9 @@ model Playbook {
   description String?
   steps       String   @default("[]")
   category    String   @default("General")
+  tags        String   @default("[]")
+  strategyId  String?
+  strategy    Strategy? @relation(fields: [strategyId], references: [id], onDelete: SetNull)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())

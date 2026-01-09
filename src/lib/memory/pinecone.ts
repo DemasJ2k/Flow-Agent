@@ -108,7 +108,12 @@ export class PineconeMemoryService {
       const index = await this.getIndex();
       const queryEmbedding = await this.embeddingService.generateEmbedding(query);
 
-      const queryOptions: any = {
+      const queryOptions: {
+        vector: number[];
+        topK: number;
+        includeMetadata: boolean;
+        filter?: Record<string, string | number | boolean>;
+      } = {
         vector: queryEmbedding,
         topK: options.topK || 5,
         includeMetadata: true,

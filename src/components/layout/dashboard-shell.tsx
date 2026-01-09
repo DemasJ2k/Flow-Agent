@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import { SidebarProvider } from "./sidebar-context";
 import { Sidebar } from "./sidebar";
 import { Header } from "./header";
+import { ToastProvider } from "@/components/ui/toast";
+import { ErrorBoundaryWrapper } from "@/components/ui/error-boundary";
 
 interface DashboardShellProps {
   children: ReactNode;
@@ -15,14 +17,18 @@ interface DashboardShellProps {
 
 export function DashboardShell({ children, user }: DashboardShellProps) {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen bg-gray-100">
-        <Sidebar />
-        <div className="flex flex-1 flex-col overflow-hidden lg:ml-0">
-          <Header user={user} />
-          <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>
+    <ToastProvider>
+      <SidebarProvider>
+        <div className="flex h-screen bg-gray-100">
+          <Sidebar />
+          <div className="flex flex-1 flex-col overflow-hidden lg:ml-0">
+            <Header user={user} />
+            <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+              <ErrorBoundaryWrapper>{children}</ErrorBoundaryWrapper>
+            </main>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </ToastProvider>
   );
 }

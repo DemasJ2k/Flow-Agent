@@ -11,6 +11,7 @@ import {
   Lightbulb,
   Wrench,
   BookMarked,
+  Library,
   Settings,
   LogOut,
   X,
@@ -26,6 +27,7 @@ const navigation = [
   { name: "Strategies", href: "/dashboard/strategies", icon: Lightbulb },
   { name: "Tools", href: "/dashboard/tools", icon: Wrench },
   { name: "Playbooks", href: "/dashboard/playbooks", icon: BookMarked },
+  { name: "Knowledge", href: "/dashboard/knowledge", icon: Library },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 

@@ -24,7 +24,7 @@ An AI-powered trading analysis application with support for Forex, Metals, Crypt
 - **Market Data**: Polygon API
 - **Charts**: TradingView Lightweight Charts
 
-## Getting Started
+## Quick Start
 
 ```bash
 npm install
@@ -33,7 +33,40 @@ npx prisma db push
 npm run dev
 ```
 
-Visit http://localhost:3000
+Visit [http://localhost:3006](http://localhost:3006)
+
+For detailed setup instructions, see the [Getting Started Guide](docs/getting-started.md).
+
+## Documentation
+
+### Core Guides
+
+- 📘 [Getting Started](docs/getting-started.md) - Complete installation and setup guide
+- 🏗️ [Architecture Overview](docs/architecture.md) - System design and data flow
+- 🔧 [API Reference](docs/api-reference.md) - Complete API documentation (39 endpoints)
+- ❓ [Troubleshooting](docs/troubleshooting.md) - Common issues and solutions
+
+### Feature Guides
+
+- 💬 [AI Chat](docs/features/chat.md) - Dual AI providers with streaming and memory
+- 📓 [Trading Journal](docs/features/journal.md) - Track trades with emotional analysis
+- 📈 [Market Charts](docs/features/charts.md) - Real-time data with ICT pattern detection
+- 🎯 [Strategies](docs/features/strategies.md) - Trading strategy management
+- 🛠️ [Tools](docs/features/tools.md) - External tool organization
+- 📋 [Playbooks](docs/features/playbooks.md) - Step-by-step execution guides
+- 📚 [Knowledge Base](docs/features/knowledge-base.md) - ICT & Scalping documentation
+- ⚙️ [Settings](docs/features/settings.md) - User preferences and configuration
+
+### System Documentation
+
+- 🧠 [Vector Memory System](docs/systems/memory-system.md) - Pinecone RAG implementation
+- 🤖 [AI Providers](docs/systems/ai-providers.md) - Claude & GPT configuration
+- 📊 [Market Data](docs/systems/market-data.md) - Polygon API integration
+
+### Database Reference
+
+- 🗄️ [Database Schema](docs/database/schema.md) - Complete model reference
+- 🔄 [Migrations](docs/database/migrations.md) - Database setup and updates
 
 ## Implementation Status
 
@@ -43,6 +76,20 @@ Visit http://localhost:3000
 ✅ Phase 4: Vector Memory System
 ✅ Phase 5: Market Data & Charts
 ✅ Phase 6: Journal System
+✅ Phase 7: Strategies, Tools & Playbooks
+✅ Phase 8: Knowledge Base (ICT & Scalping)
+✅ Phase 9: Polish & Optimization
+
+### Phase 9 Improvements
+
+- Toast notification system for user feedback
+- Error boundaries for graceful error handling
+- Empty state components for better UX
+- Settings page with backend persistence
+- User profile management with password change
+- Chat-to-Journal save functionality
+- Consistent light theme across all pages
+- Input validation on API endpoints
 
 ## Environment Variables
 

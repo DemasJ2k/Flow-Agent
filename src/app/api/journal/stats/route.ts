@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
 
     let streak = 0;
     const today = new Date().toISOString().split("T")[0];
-    let checkDate = new Date(today);
+    const checkDate = new Date(today);
 
     for (let i = 0; i < sortedDates.length; i++) {
       const currentDateStr = checkDate.toISOString().split("T")[0];

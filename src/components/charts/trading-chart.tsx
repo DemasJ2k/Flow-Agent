@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import {
   createChart,
   IChartApi,
@@ -32,7 +32,7 @@ export function TradingChart({
   const candlestickSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const volumeSeriesRef = useRef<ISeriesApi<"Histogram"> | null>(null);
 
-  const [priceInfo, setPriceInfo] = useState<{
+  type PriceInfo = {
     open: number;
     high: number;
     low: number;
@@ -40,7 +40,27 @@ export function TradingChart({
     volume: number;
     change: number;
     changePercent: number;
-  } | null>(null);
+  };
+
+  const defaultPriceInfo = useMemo((): PriceInfo | null => {
+    if (data.length === 0) return null;
+    const lastCandle = data[data.length - 1];
+    const firstCandle = data[0];
+    const change = lastCandle.close - firstCandle.open;
+    const changePercent = (change / firstCandle.open) * 100;
+    return {
+      open: lastCandle.open,
+      high: lastCandle.high,
+      low: lastCandle.low,
+      close: lastCandle.close,
+      volume: lastCandle.volume || 0,
+      change,
+      changePercent,
+    };
+  }, [data]);
+
+  const [hoverPriceInfo, setHoverPriceInfo] = useState<PriceInfo | null>(null);
+  const priceInfo = hoverPriceInfo ?? defaultPriceInfo;
 
   const initChart = useCallback(() => {
     if (!chartContainerRef.current) return;
@@ -132,7 +152,7 @@ export function TradingChart({
           const change = candleData.close - candleData.open;
           const changePercent = (change / candleData.open) * 100;
 
-          setPriceInfo({
+          setHoverPriceInfo({
             open: candleData.open,
             high: candleData.high,
             low: candleData.low,
@@ -142,6 +162,8 @@ export function TradingChart({
             changePercent,
           });
         }
+      } else {
+        setHoverPriceInfo(null);
       }
     });
 
@@ -196,23 +218,6 @@ export function TradingChart({
 
     if (chartRef.current) {
       chartRef.current.timeScale().fitContent();
-    }
-
-    if (chartData.length > 0) {
-      const lastCandle = chartData[chartData.length - 1];
-      const firstCandle = chartData[0];
-      const change = lastCandle.close - firstCandle.open;
-      const changePercent = (change / firstCandle.open) * 100;
-
-      setPriceInfo({
-        open: lastCandle.open,
-        high: lastCandle.high,
-        low: lastCandle.low,
-        close: lastCandle.close,
-        volume: data[data.length - 1]?.volume || 0,
-        change,
-        changePercent,
-      });
     }
   }, [data]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import {
   createChart,
   IChartApi,
@@ -30,7 +30,16 @@ export function CandlestickChart({
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const candlestickSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
+
+  const defaultPrice = useMemo(() => {
+    if (data.length > 0) {
+      return data[data.length - 1].close;
+    }
+    return null;
+  }, [data]);
+
+  const [hoverPrice, setHoverPrice] = useState<number | null>(null);
+  const displayPrice = hoverPrice ?? defaultPrice;
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -93,11 +102,11 @@ export function CandlestickChart({
         const seriesData = param.seriesData.get(candlestickSeries);
         if (seriesData) {
           const candleData = seriesData as CandlestickData;
-          setCurrentPrice(candleData.close);
+          setHoverPrice(candleData.close);
           onCrosshairMove?.(candleData.close, param.time);
         }
       } else {
-        setCurrentPrice(null);
+        setHoverPrice(null);
         onCrosshairMove?.(null, null);
       }
     });
@@ -134,20 +143,16 @@ export function CandlestickChart({
     if (chartRef.current) {
       chartRef.current.timeScale().fitContent();
     }
-
-    if (chartData.length > 0) {
-      setCurrentPrice(chartData[chartData.length - 1].close);
-    }
   }, [data]);
 
   return (
     <div className={`relative ${className}`}>
       <div ref={chartContainerRef} className="w-full" />
-      {currentPrice && (
+      {displayPrice && (
         <div className="absolute top-2 right-2 bg-slate-800/80 px-3 py-1 rounded text-sm">
           <span className="text-slate-400">Price: </span>
           <span className="text-white font-medium">
-            {currentPrice.toFixed(5)}
+            {displayPrice.toFixed(5)}
           </span>
         </div>
       )}
